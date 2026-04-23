@@ -3,9 +3,10 @@ import type BookModel from "../models/BookModel";
 type Props = {
   book: BookModel;
   onDelete: (id: number) => void;
+  onEdit: (id: number) => void;
 };
 
-export const BookCard = ({ book, onDelete }: Props) => {
+export const BookCard = ({ book, onDelete, onEdit }: Props) => {
   return (
     <div className="flex flex-col md:flex-row items-center bg-neutral-primary-soft p-6 border border-default rounded-base shadow-xs max-w-xl">
       <img
@@ -32,6 +33,12 @@ export const BookCard = ({ book, onDelete }: Props) => {
           className="w-fit bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-lg transition"
         >
           Delete
+        </button>
+        <button
+          onClick={() => onEdit(book.id)}
+          className="bg-yellow-500 text-white px-4 py-2 rounded ml-2"
+        >
+          Edit
         </button>
       </div>
     </div>
