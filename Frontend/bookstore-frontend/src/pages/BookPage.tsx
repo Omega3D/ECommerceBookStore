@@ -22,22 +22,6 @@ export const BookPage = () => {
     }
   };
 
-  const handleEdit = async (id: number) => {
-    const newTitle = prompt("New title");
-
-    if (!newTitle) return;
-
-    const bookData: BookUpdateDto = {
-      title: newTitle,
-      description: "edited",
-      price: 100,
-      isbn: "123",
-      imageUrl: "",
-    };
-
-    await updateBook(id, bookData);
-  };
-
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Books</h1>
@@ -51,12 +35,7 @@ export const BookPage = () => {
 
       <div className="mt-6 space-y-4">
         {books.map((book) => (
-          <BookCard
-            key={book.id}
-            book={book}
-            onDelete={handleDelete}
-            onEdit={handleEdit}
-          />
+          <BookCard key={book.id} book={book} onDelete={handleDelete} />
         ))}
       </div>
     </div>

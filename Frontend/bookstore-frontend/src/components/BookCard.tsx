@@ -1,4 +1,5 @@
 import type BookModel from "../models/BookModel";
+import { Link } from "react-router-dom";
 
 type Props = {
   book: BookModel;
@@ -34,12 +35,12 @@ export const BookCard = ({ book, onDelete, onEdit }: Props) => {
         >
           Delete
         </button>
-        <button
-          onClick={() => onEdit(book.id)}
+        <Link
+          to={`/edit/${book.id}`}
           className="bg-yellow-500 text-white px-4 py-2 rounded ml-2"
         >
           Edit
-        </button>
+        </Link>
       </div>
     </div>
   );

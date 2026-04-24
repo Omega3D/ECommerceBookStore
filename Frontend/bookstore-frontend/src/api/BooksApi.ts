@@ -8,6 +8,11 @@ export const getBooks = async () => {
   return res.json();
 };
 
+export const getBookById = async (id: number) => {
+  const res = await fetch(`${BASE_URL}/${id}`);
+  return res.json();
+}
+
 export const createBook = async (book: BookCreateDto) => {
   return await fetch(BASE_URL, {
     method: "POST",
