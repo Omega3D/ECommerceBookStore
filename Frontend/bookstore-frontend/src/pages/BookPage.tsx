@@ -4,10 +4,10 @@ import { BookCard } from "../components/BookCard";
 import { getBooks, createBook, deleteBook, updateBook } from "../api/BooksApi";
 import type BookCreateDto from "../BookDto/BookCreateDto";
 import type BookUpdateDto from "../BookDto/BookUpdateDto";
+import { Link } from "react-router-dom";
 
 export const BookPage = () => {
   const [books, setBooks] = useState<BookModel[]>([]);
-  const [title, setTitle] = useState<string>("");
 
   useEffect(() => {
     getBooks().then((data) => setBooks(data));
@@ -25,15 +25,13 @@ export const BookPage = () => {
 
   const handleCreate = async () => {
     const myBook: BookCreateDto = {
-      title: title,
+      title: "aa",
       description: "updated",
       price: 100,
       isbn: "123",
       imageUrl: "",
     };
     await createBook(myBook);
-
-    setTitle("");
   };
 
   const handleEdit = async (id: number) => {
@@ -56,18 +54,12 @@ export const BookPage = () => {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Books</h1>
 
-      <input
-        className="border p-2 mr-2"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-
-      <button
-        onClick={handleCreate}
-        className="bg-green-600 text-white px-4 py-2 rounded"
+      <Link
+        to="/create"
+        className="bg-green-600 text-white px-4 py-2 rounded ml-2"
       >
         Create Book
-      </button>
+      </Link>
 
       <div className="mt-6 space-y-4">
         {books.map((book) => (
