@@ -9,7 +9,7 @@ export const getBooks = async () => {
 };
 
 export const createBook = async (book: BookCreateDto) => {
-  await fetch(BASE_URL, {
+  return await fetch(BASE_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

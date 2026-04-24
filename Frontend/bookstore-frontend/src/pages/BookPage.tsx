@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import type BookModel from "../models/BookModel";
 import { BookCard } from "../components/BookCard";
-import { getBooks, createBook, deleteBook, updateBook } from "../api/BooksApi";
-import type BookCreateDto from "../BookDto/BookCreateDto";
+import { getBooks, deleteBook, updateBook } from "../api/BooksApi";
 import type BookUpdateDto from "../BookDto/BookUpdateDto";
 import { Link } from "react-router-dom";
 
@@ -21,17 +20,6 @@ export const BookPage = () => {
     } else {
       alert("Delete failed");
     }
-  };
-
-  const handleCreate = async () => {
-    const myBook: BookCreateDto = {
-      title: "aa",
-      description: "updated",
-      price: 100,
-      isbn: "123",
-      imageUrl: "",
-    };
-    await createBook(myBook);
   };
 
   const handleEdit = async (id: number) => {
