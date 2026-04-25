@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import type BookModel from "../models/BookModel";
 import { BookCard } from "../components/BookCard";
-import { getBooks, deleteBook, updateBook } from "../api/BooksApi";
-import type BookUpdateDto from "../BookDto/BookUpdateDto";
+import { getBooks, deleteBook } from "../api/BooksApi";
 import { Link } from "react-router-dom";
 
 export const BookPage = () => {

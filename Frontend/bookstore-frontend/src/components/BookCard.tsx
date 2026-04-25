@@ -4,10 +4,9 @@ import { Link } from "react-router-dom";
 type Props = {
   book: BookModel;
   onDelete: (id: number) => void;
-  onEdit: (id: number) => void;
 };
 
-export const BookCard = ({ book, onDelete, onEdit }: Props) => {
+export const BookCard = ({ book, onDelete }: Props) => {
   return (
     <div className="flex flex-col md:flex-row items-center bg-neutral-primary-soft p-6 border border-default rounded-base shadow-xs max-w-xl">
       <img
