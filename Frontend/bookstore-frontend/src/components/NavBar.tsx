@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export const NavBar = () => {
   return (
-    <nav className="bg-gray-900 text-white px-6 py-4 flex justify-between items-center">
+    <nav className="bg-gray-900 text-white px-6 py-6 flex justify-between items-center">
       <div className="flex gap-4 items-center">
         <Link to="/books" className="font-bold text-lg">
           📚 BookStore
@@ -20,7 +20,7 @@ export const NavBar = () => {
       <input
         type="text"
         placeholder="Search..."
-        className="px-3 py-1 rounded text-black"
+        className="px-3 py-1 rounded text-white justify-center items-center"
       />
     </nav>
   );

@@ -3,6 +3,7 @@ using Bookstore.Api.ViewModels;
 using Bookstore.Api.ViewModels.Request;
 using Bookstore.Application.Dtos;
 using Bookstore.Application.Interfaces;
+using Bookstore.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookstore.Api.Controllers;
@@ -111,5 +112,13 @@ public class BooksController(IBooksService booksService, BookValidatorHelper boo
             return NotFound();
 
         return NoContent();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> SearchBook([FromQuery] string? search)
+    {
+        var books = await booksService.SearchBookByTitle(search);
+
+        return Ok(books);
     }
 }

@@ -10,4 +10,5 @@ public interface IBooksService
     public Task<int> CreateBook(BookRequestDto bookDto);
     public Task UpdateBook(int id, BookUpdateDto dto);
     public Task<bool> DeleteBook(int id);
+    public Task<IEnumerable<Book>> SearchBookByTitle(string? title);
 }

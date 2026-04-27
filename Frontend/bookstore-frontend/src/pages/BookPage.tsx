@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type BookModel from "../models/BookModel";
 import { BookCard } from "../components/BookCard";
 import { getBooks, deleteBook } from "../api/BooksApi";
+import toast from "react-hot-toast";
 
 export const BookPage = () => {
   const [books, setBooks] = useState<BookModel[]>([]);
@@ -29,8 +30,9 @@ export const BookPage = () => {
 
     if (res.ok) {
       setBooks((prev) => prev.filter((b) => b.id !== id));
+      toast.success("Book was deleted successfully!");
     } else {
-      alert("Delete failed");
+      toast.error("Deletion failed!");
     }
   };
 
@@ -45,8 +47,6 @@ export const BookPage = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Books</h1>
-
       {books.length === 0 && loading ? (
         <p className="text-gray-500">No books yet. Create a new one!</p>
       ) : (

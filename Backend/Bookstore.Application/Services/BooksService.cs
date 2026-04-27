@@ -69,4 +69,17 @@ public class BooksService
 
         return true;
     }
+
+    public async Task<IEnumerable<Book>> SearchBookByTitle(string? title)
+    {
+        var query = context.Books.AsQueryable();
+
+        if (!string.IsNullOrEmpty(title))
+        {
+            var lowerValue = title.ToLower();
+            query = query.Where(x => x.Title.ToLower().Contains(lowerValue));
+        }
+
+        return await query.ToListAsync();
+    }
 }
