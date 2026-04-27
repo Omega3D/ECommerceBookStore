@@ -1,15 +1,15 @@
-﻿using Bookstore.Api.ViewModels;
+﻿using Bookstore.Api.Validators;
+using Bookstore.Api.ViewModels;
 using Bookstore.Api.ViewModels.Request;
 using Bookstore.Application.Dtos;
 using Bookstore.Application.Interfaces;
-using Bookstore.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookstore.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class BooksController(IBooksService booksService) : ControllerBase
+public class BooksController(IBooksService booksService, BookValidatorHelper bookValidatorHelper) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<BookViewModel>>> GetAllBooks()
@@ -62,6 +62,13 @@ public class BooksController(IBooksService booksService) : ControllerBase
             Isbn = bookViewModel.Isbn,
             ImageUrl = bookViewModel.ImageUrl,
         };
+
+        var errors = bookValidatorHelper.ValidateBookModel(book);
+
+        if (errors.Count > 0)
+        {
+            return BadRequest(errors);
+        }
 
         return await booksService.CreateBook(book);
     }
