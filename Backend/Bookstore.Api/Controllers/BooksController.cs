@@ -114,7 +114,7 @@ public class BooksController(IBooksService booksService, BookValidatorHelper boo
         return NoContent();
     }
 
-    [HttpGet]
+    [HttpGet("search")]
     public async Task<IActionResult> SearchBook([FromQuery] string? search)
     {
         var books = await booksService.SearchBookByTitle(search);
