@@ -3,6 +3,7 @@ import { BookPage } from "./pages/BookPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { BookFormPage } from "./pages/BookFormPage";
 import { Toaster } from "react-hot-toast";
+import { NavBar } from "./components/NavBar";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           },
         }}
       />
+      <NavBar />
       <Routes>
         <Route path="/" element={<BookPage />} />
         <Route path="/books" element={<BookPage />} />
