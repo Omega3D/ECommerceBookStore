@@ -10,11 +10,37 @@ export const BookFormPage = () => {
   const [isbn, setIsbn] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
+  const [errorsList, setErrorsList] = useState<Record<string, string>>({});
+
   const { id } = useParams();
 
   const isEdit = !!id;
 
   const navigate = useNavigate();
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!title.trim()) {
+      newErrors.title = "Title is required";
+    }
+
+    if (!description.trim()) {
+      newErrors.description = "Description is required";
+    }
+
+    if (!isbn.trim()) {
+      newErrors.isbn = "ISBN is required";
+    }
+
+    if (!price || price <= 0) {
+      newErrors.price = "Price must be greater than 0";
+    }
+
+    setErrorsList(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -33,6 +59,8 @@ export const BookFormPage = () => {
   }, [id]);
 
   const handleSubmit = async () => {
+    if (!validate()) return;
+
     const data = {
       title,
       description,
@@ -65,6 +93,7 @@ export const BookFormPage = () => {
         setImageUrl={setImageUrl}
         onSubmit={handleSubmit}
         buttonText={isEdit ? "Update Book" : "Create Book"}
+        errors={errorsList}
       />
     </>
   );

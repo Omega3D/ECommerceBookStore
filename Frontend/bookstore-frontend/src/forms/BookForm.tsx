@@ -15,6 +15,8 @@ type Props = {
 
   onSubmit: () => void;
   buttonText: string;
+
+  errors: Record<string, string>;
 };
 
 export const BookForm = ({
@@ -30,6 +32,7 @@ export const BookForm = ({
   setImageUrl,
   onSubmit,
   buttonText,
+  errors,
 }: Props) => {
   return (
     <div>
@@ -41,6 +44,7 @@ export const BookForm = ({
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
+      {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
       <label className="block mb-2.5 text-sm font-medium text-heading">
         Description
       </label>
@@ -49,6 +53,9 @@ export const BookForm = ({
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
+      {errors.description && (
+        <p className="text-red-500 text-sm">{errors.description}</p>
+      )}
       <label className="block mb-2.5 text-sm font-medium text-heading">
         Price
       </label>
@@ -57,6 +64,7 @@ export const BookForm = ({
         value={price}
         onChange={(e) => setPrice(parseFloat(e.target.value))}
       />
+      {errors.price && <p className="text-red-500 text-sm">{errors.price}</p>}
       <label className="block mb-2.5 text-sm font-medium text-heading">
         ISBN
       </label>
@@ -65,6 +73,7 @@ export const BookForm = ({
         value={isbn}
         onChange={(e) => setIsbn(e.target.value)}
       />
+      {errors.price && <p className="text-red-500 text-sm">{errors.price}</p>}
       <label className="block mb-2.5 text-sm font-medium text-heading">
         ImageUrl
       </label>
@@ -73,7 +82,6 @@ export const BookForm = ({
         value={imageUrl}
         onChange={(e) => setImageUrl(e.target.value)}
       />
-
       <button
         className="bg-green-600 text-white px-4 py-2 rounded ml-2 cursor-pointer"
         onClick={onSubmit}
