@@ -63,7 +63,7 @@ public class BooksController(IBooksService booksService, BookValidatorHelper boo
             ImageUrl = bookViewModel.ImageUrl,
         };
 
-        var errors = bookValidatorHelper.ValidateBookModel(book);
+        var errors = bookValidatorHelper.ValidateBookCreateModel(book);
 
         if (errors.Count > 0)
         {
@@ -89,6 +89,13 @@ public class BooksController(IBooksService booksService, BookValidatorHelper boo
             Isbn = bookViewModel.Isbn,
             ImageUrl = bookViewModel.ImageUrl,
         };
+
+        var errors = bookValidatorHelper.ValidateBookUpdateModel(parsed);
+
+        if (errors.Count > 0)
+        {
+            return BadRequest(errors);
+        }
 
         await booksService.UpdateBook(id, parsed);
 

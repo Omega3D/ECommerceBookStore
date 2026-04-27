@@ -64,7 +64,10 @@ export const BookForm = ({
       <input
         className="bg-neutral-secondary-medium border border-default-medium text-heading text-base rounded-base focus:ring-brand focus:border-brand block w-full px-3.5 py-3 shadow-xs placeholder:text-body"
         value={price}
-        onChange={(e) => setPrice(parseFloat(e.target.value))}
+        onChange={(e) => {
+          const val = e.target.value;
+          setPrice(val === "" ? 0 : parseFloat(val));
+        }}
       />
       {errors.price && <p className="text-red-500 text-sm">{errors.price}</p>}
       <label className="block mb-2.5 text-sm font-medium text-heading">
@@ -75,7 +78,7 @@ export const BookForm = ({
         value={isbn}
         onChange={(e) => setIsbn(e.target.value)}
       />
-      {errors.price && <p className="text-red-500 text-sm">{errors.price}</p>}
+      {errors.isbn && <p className="text-red-500 text-sm">{errors.isbn}</p>}
       <label className="block mb-2.5 text-sm font-medium text-heading">
         ImageUrl
       </label>
