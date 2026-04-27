@@ -17,6 +17,7 @@ type Props = {
   buttonText: string;
 
   errors: Record<string, string>;
+  loading: boolean;
 };
 
 export const BookForm = ({
@@ -33,6 +34,7 @@ export const BookForm = ({
   onSubmit,
   buttonText,
   errors,
+  loading,
 }: Props) => {
   return (
     <div>
@@ -83,10 +85,13 @@ export const BookForm = ({
         onChange={(e) => setImageUrl(e.target.value)}
       />
       <button
-        className="bg-green-600 text-white px-4 py-2 rounded ml-2 cursor-pointer"
         onClick={onSubmit}
+        disabled={loading}
+        className={`px-4 py-2 rounded text-white ${
+          loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-600"
+        }`}
       >
-        {buttonText}
+        {loading ? "Loading..." : buttonText}
       </button>
       <Link
         to="/books"

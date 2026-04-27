@@ -11,6 +11,7 @@ export const BookFormPage = () => {
   const [imageUrl, setImageUrl] = useState("");
 
   const [errorsList, setErrorsList] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(false);
 
   const { id } = useParams();
 
@@ -61,21 +62,23 @@ export const BookFormPage = () => {
   const handleSubmit = async () => {
     if (!validate()) return;
 
-    const data = {
-      title,
-      description,
-      price,
-      isbn,
-      imageUrl,
-    };
+    setLoading(true);
 
-    if (isEdit) {
-      await updateBook(Number(id), data);
-    } else {
-      await createBook(data);
+    try {
+      const data = { title, description, price, isbn, imageUrl };
+
+      if (isEdit) {
+        await updateBook(Number(id), data);
+      } else {
+        await createBook(data);
+      }
+
+      navigate("/books");
+    } catch (err) {
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
     }
-
-    navigate("/books");
   };
 
   return (
@@ -94,6 +97,7 @@ export const BookFormPage = () => {
         onSubmit={handleSubmit}
         buttonText={isEdit ? "Update Book" : "Create Book"}
         errors={errorsList}
+        loading={loading}
       />
     </>
   );
