@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export const NavBar = () => {
+export const NavBar = ({ search, setSearch }) => {
   return (
     <nav className="bg-gray-900 text-white px-6 py-6 flex justify-between items-center">
       <div className="flex gap-4 items-center">
@@ -17,11 +17,17 @@ export const NavBar = () => {
         </Link>
       </div>
 
-      <input
-        type="text"
-        placeholder="Search..."
-        className="px-3 py-1 rounded text-white justify-center items-center"
-      />
+      <div className="flex-1 flex justify-center max-w-md mx-auto">
+        <input
+          type="text"
+          placeholder="Search books..."
+          className="w-full px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-lg focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      <div className="shrink-0 w-30"></div>
     </nav>
   );
 };

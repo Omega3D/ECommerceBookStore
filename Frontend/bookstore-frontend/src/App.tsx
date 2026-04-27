@@ -4,8 +4,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { BookFormPage } from "./pages/BookFormPage";
 import { Toaster } from "react-hot-toast";
 import { NavBar } from "./components/NavBar";
+import { useState } from "react";
 
 function App() {
+  const [search, setSearch] = useState("");
+
   return (
     <BrowserRouter>
       <Toaster
@@ -19,8 +22,9 @@ function App() {
           },
         }}
       />
-      <NavBar />
+      <NavBar search={search} setSearch={setSearch} />
       <Routes>
+        <Route path="/books" element={<BookPage search={search} />} />
         <Route path="/" element={<BookPage />} />
         <Route path="/books" element={<BookPage />} />
         <Route path="/create" element={<BookFormPage />} />

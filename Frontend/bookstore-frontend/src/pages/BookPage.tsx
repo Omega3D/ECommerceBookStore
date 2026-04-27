@@ -4,22 +4,32 @@ import { BookCard } from "../components/BookCard";
 import { getBooks, deleteBook } from "../api/BooksApi";
 import toast from "react-hot-toast";
 
-export const BookPage = () => {
+export const BookPage = ({ search }) => {
   const [books, setBooks] = useState<BookModel[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
 
-      const data = await getBooks();
+      const data = await getBooks(debouncedSearch);
 
       setBooks(data);
       setLoading(false);
     };
 
     fetch();
-  }, []);
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 400);
+
+    return () => clearTimeout(timeout);
+  }, [search]);
 
   const handleDelete = async (id: number) => {
     const confirmed = confirm("Are you sure you want to delete this book?");
@@ -47,13 +57,15 @@ export const BookPage = () => {
 
   return (
     <div className="p-6">
-      {books.length === 0 && loading ? (
-        <p className="text-gray-500">No books yet. Create a new one!</p>
+      {books.length === 0 ? (
+        <p className="text-gray-500">No results!</p>
       ) : (
-        <div className="flex flex-wrap gap-4">
-          {books.map((book) => (
-            <BookCard key={book.id} book={book} onDelete={handleDelete} />
-          ))}
+        <div>
+          <div className="flex flex-wrap gap-4">
+            {books.map((book) => (
+              <BookCard key={book.id} book={book} onDelete={handleDelete} />
+            ))}
+          </div>
         </div>
       )}
     </div>

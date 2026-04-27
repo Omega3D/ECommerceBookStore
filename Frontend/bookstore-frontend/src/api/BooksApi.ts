@@ -3,8 +3,11 @@ import type BookUpdateDto from "../BookDto/BookUpdateDto";
 
 const BASE_URL = "https://localhost:7107/api/books";
 
-export const getBooks = async () => {
-  const res = await fetch(BASE_URL);
+export const getBooks = async (title?: string) => {
+  const url = title
+  ? `${BASE_URL}/search?search=${encodeURIComponent(title)}`
+  : `${BASE_URL}`
+  const res = await fetch(url);
   return res.json();
 };
 
