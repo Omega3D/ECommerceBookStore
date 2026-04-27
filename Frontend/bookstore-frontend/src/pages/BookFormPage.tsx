@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BookForm } from "../forms/BookForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { createBook, getBookById, updateBook } from "../api/BooksApi";
+import toast from "react-hot-toast";
 
 export const BookFormPage = () => {
   const [title, setTitle] = useState("");
@@ -73,9 +74,11 @@ export const BookFormPage = () => {
         await createBook(data);
       }
 
+      toast.success("Success!");
+
       navigate("/books");
     } catch (err) {
-      alert("Something went wrong");
+      toast.error("Something went wrong!");
     } finally {
       setLoading(false);
     }

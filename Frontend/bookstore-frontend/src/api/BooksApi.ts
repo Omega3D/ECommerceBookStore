@@ -14,13 +14,20 @@ export const getBookById = async (id: number) => {
 }
 
 export const createBook = async (book: BookCreateDto) => {
-  return await fetch(BASE_URL, {
+  const response = await fetch(BASE_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(book),
   });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message);
+  }
+  
+  return response.json();
 };
 
 export const deleteBook = async (id: number) => {
