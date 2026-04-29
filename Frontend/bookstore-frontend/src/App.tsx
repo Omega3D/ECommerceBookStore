@@ -24,9 +24,8 @@ function App() {
       />
       <NavBar search={search} setSearch={setSearch} />
       <Routes>
+        <Route path="/" element={<BookPage search={search} />} />
         <Route path="/books" element={<BookPage search={search} />} />
-        <Route path="/" element={<BookPage />} />
-        <Route path="/books" element={<BookPage />} />
         <Route path="/create" element={<BookFormPage />} />
         <Route path="/edit/:id" element={<BookFormPage />} />
       </Routes>
