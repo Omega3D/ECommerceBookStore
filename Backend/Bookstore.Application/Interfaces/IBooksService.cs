@@ -1,4 +1,5 @@
 ﻿using Bookstore.Application.Dtos;
+using Bookstore.Application.Dtos.Pagination;
 using Bookstore.Infrastructure.Entities;
 
 namespace Bookstore.Application.Interfaces;
@@ -10,5 +11,5 @@ public interface IBooksService
     public Task<int> CreateBook(BookRequestDto bookDto);
     public Task UpdateBook(int id, BookUpdateDto dto);
     public Task<bool> DeleteBook(int id);
-    public Task<IEnumerable<Book>> SearchBookByTitle(string? title);
+    public Task<PagedResult<Book>> GetPaged(ProductFilterQuery query);
 }

@@ -1,4 +1,5 @@
 ﻿using Bookstore.Application.Dtos;
+using Bookstore.Application.Dtos.Pagination;
 using Bookstore.Application.Interfaces;
 using Bookstore.Infrastructure;
 using Bookstore.Infrastructure.Entities;
@@ -70,16 +71,39 @@ public class BooksService
         return true;
     }
 
-    public async Task<IEnumerable<Book>> SearchBookByTitle(string? title)
+    public async Task<PagedResult<Book>> GetPaged(ProductFilterQuery q)
     {
-        var query = context.Books.AsQueryable();
+        var query = context.Books
+            .AsQueryable();
 
-        if (!string.IsNullOrEmpty(title))
+        if (!string.IsNullOrWhiteSpace(q.Search))
+            query = query.Where(p => p.Title.ToLower().Contains(q.Search.ToLower()));
+
+        if(q.MinPrice.HasValue)
+            query = query.Where(p => p.Price >=  q.MinPrice.Value);
+
+        if (q.MaxPrice.HasValue)
+            query = query.Where(p => p.Price <= q.MaxPrice.Value);
+
+        query = q.SortBy switch
         {
-            var lowerValue = title.ToLower();
-            query = query.Where(x => x.Title.ToLower().Contains(lowerValue));
-        }
+            "price_asc" => query.OrderBy(p => p.Price),
+            "price_desc" => query.OrderByDescending(p => p.Price),
+            _ => query.OrderByDescending(p => p.Title)
+        };
 
-        return await query.ToListAsync();
+        var totalPages = await query.CountAsync();
+        var items = await query
+            .Skip((q.PageNumber - 1) * q.PageSize)
+            .Take(q.PageSize)
+            .ToListAsync();
+
+        return new PagedResult<Book>
+        {
+            Items = items,
+            TotalCount = totalPages,
+            PageNumber = q.PageNumber,
+            PageSize = q.PageSize,
+        };
     }
 }

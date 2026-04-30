@@ -2,8 +2,8 @@
 using Bookstore.Api.ViewModels;
 using Bookstore.Api.ViewModels.Request;
 using Bookstore.Application.Dtos;
+using Bookstore.Application.Dtos.Pagination;
 using Bookstore.Application.Interfaces;
-using Bookstore.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookstore.Api.Controllers;
@@ -114,11 +114,11 @@ public class BooksController(IBooksService booksService, BookValidatorHelper boo
         return NoContent();
     }
 
-    [HttpGet("search")]
-    public async Task<IActionResult> SearchBook([FromQuery] string? search)
+    [HttpGet("query")]
+    public async Task<ActionResult<PagedResult<BookViewModel>>> Get([FromQuery] ProductFilterQuery query)
     {
-        var books = await booksService.SearchBookByTitle(search);
+        var result = await booksService.GetPaged(query);
 
-        return Ok(books);
+        return Ok(result);
     }
 }
