@@ -1,14 +1,20 @@
 import type BookCreateDto from "../BookDto/BookCreateDto";
 import type BookUpdateDto from "../BookDto/BookUpdateDto";
+import { BookFilterQuery } from "../models/BookFilterQuery";
 
 const BASE_URL = "https://localhost:7107/api/books";
 
-export const getBooks = async (title?: string) => {
-  const url = title
-  ? `${BASE_URL}/search?search=${encodeURIComponent(title)}`
-  : `${BASE_URL}`
-  const res = await fetch(url);
-  return res.json();
+export const getBooks = async (query?: BookFilterQuery) => {
+  const url = new URL(`${BASE_URL}/query`);
+
+  Object.entries(query ?? {}).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      url.searchParams.set(key, String(value));
+    }
+  });
+
+const res = await fetch(url.toString());
+return res.json();
 };
 
 export const getBookById = async (id: number) => {

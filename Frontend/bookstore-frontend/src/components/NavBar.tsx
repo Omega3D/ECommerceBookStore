@@ -27,7 +27,9 @@ export const NavBar = ({ search, setSearch }) => {
         />
       </div>
 
-      <div className="shrink-0 w-30"></div>
+      <div className="shrink-0 w-30">
+        <button>Login</button>
+      </div>
     </nav>
   );
 };
