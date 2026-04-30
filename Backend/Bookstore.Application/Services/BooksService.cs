@@ -101,9 +101,12 @@ public class BooksService
         return new PagedResult<Book>
         {
             Items = items,
-            TotalCount = totalPages,
-            PageNumber = q.PageNumber,
-            PageSize = q.PageSize,
+            Pagination = new Pagination()
+            {
+                TotalCount = totalPages,
+                PageNumber = q.PageNumber,
+                PageSize = q.PageSize,
+            }
         };
     }
 }

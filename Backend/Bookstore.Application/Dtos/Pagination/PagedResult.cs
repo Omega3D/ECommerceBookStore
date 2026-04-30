@@ -3,6 +3,11 @@
 public class PagedResult<T>
 {
     public List<T> Items { get; init; } = [];
+    public Pagination Pagination { get; init; } = new Pagination();
+}
+
+public class Pagination
+{
     public int TotalCount { get; init; }
     public int PageNumber { get; init; }
     public int PageSize { get; init; }
