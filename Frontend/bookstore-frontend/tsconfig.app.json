@@ -4,18 +4,35 @@
     "module": "esnext",
     "types": ["vite/client"],
     "skipLibCheck": true,
-
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo",
+    
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "jsx": "react-jsx",
-
+    
     /* Linting */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", "build", ".git", "**/*.test.ts", "**/*.spec.ts"]
+  "exclude": [
+    "node_modules", 
+    "dist", 
+    "build", 
+    ".git",
+    "**/*.test.ts", 
+    "**/*.spec.ts",
+    "**/__tests__/**"  // ← додано
+  ]
 }
