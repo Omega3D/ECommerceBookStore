@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
-import type BookModel from "../models/BookModel";
-import { BookCard } from "../components/BookCard";
-import { getBooks, deleteBook } from "../api/BooksApi";
 import toast from "react-hot-toast";
-import {
-  BookFilterQuery,
-  defaultBookFilterQuery,
-} from "../models/BookFilterQuery";
+
+import type BookModel from "../models/BookModel";
+
+import { BookCard } from "../components/BookCard";
 import { Pagination } from "../components/Pagination";
 import { Filters } from "../components/Filters";
+
+import { deleteBook } from "../api/BooksApi";
+
+import { defaultBookFilterQuery } from "../models/BookFilterQuery";
+
 import { useDebounce } from "../hooks/useDebounce";
+import { useBooks } from "../hooks/useBooks";
 
 export const BookPage = ({ search }) => {
-  const [books, setBooks] = useState<BookModel[]>([]);
-  const [loading, setLoading] = useState(true);
-
   const debouncedSearch = useDebounce(search, 400);
 
   const [pagination, setPagination] = useState({
@@ -26,25 +26,22 @@ export const BookPage = ({ search }) => {
     hasPrevious: false,
   });
 
+  const {
+    books,
+    pagination: serverPagination,
+    loading,
+    setBooks,
+  } = useBooks({
+    pageNumber: pagination.pageNumber,
+    pageSize: pagination.pageSize,
+    search: debouncedSearch,
+  });
+
   useEffect(() => {
-    const fetch = async () => {
-      setLoading(true);
-
-      const query: BookFilterQuery = {
-        pageNumber: pagination.pageNumber,
-        pageSize: pagination.pageSize,
-        search: debouncedSearch,
-      };
-
-      const data = await getBooks(query);
-
-      setBooks(data.items);
-      setPagination(data.pagination);
-      setLoading(false);
-    };
-
-    fetch();
-  }, [debouncedSearch, pagination.pageNumber]);
+    if (serverPagination) {
+      setPagination(serverPagination);
+    }
+  }, [serverPagination]);
 
   useEffect(() => {
     setPagination((prev) => ({
@@ -61,7 +58,8 @@ export const BookPage = ({ search }) => {
     const res = await deleteBook(id);
 
     if (res.ok) {
-      setBooks((prev) => prev.filter((b) => b.id !== id));
+      setBooks((prev: BookModel[]) => prev.filter((b) => b.id !== id));
+
       toast.success("Book was deleted successfully!");
     } else {
       toast.error("Deletion failed!");
@@ -71,8 +69,8 @@ export const BookPage = ({ search }) => {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-24 bg-gray-200 animate-pulse rounded"></div>
-        <div className="h-24 bg-gray-200 animate-pulse rounded"></div>
+        <div className="h-24 animate-pulse rounded bg-gray-200"></div>
+        <div className="h-24 animate-pulse rounded bg-gray-200"></div>
       </div>
     );
   }
@@ -86,13 +84,15 @@ export const BookPage = ({ search }) => {
           <div className="w-[20%] min-w-62.5">
             <Filters />
           </div>
+
           <div className="flex-1 min-w-0">
             <div className="grid grid-cols-5 gap-4">
-              {books.map((book) => (
+              {books.map((book: BookModel) => (
                 <BookCard key={book.id} book={book} onDelete={handleDelete} />
               ))}
             </div>
-            <div className="flex justify-center">
+
+            <div className="mt-8 flex justify-center">
               <Pagination
                 pagination={pagination}
                 setPagination={setPagination}
