@@ -9,12 +9,13 @@ import {
 } from "../models/BookFilterQuery";
 import { Pagination } from "../components/Pagination";
 import { Filters } from "../components/Filters";
+import { useDebounce } from "../hooks/useDebounce";
 
 export const BookPage = ({ search }) => {
   const [books, setBooks] = useState<BookModel[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 400);
 
   const [pagination, setPagination] = useState({
     totalCount: 0,
@@ -44,14 +45,6 @@ export const BookPage = ({ search }) => {
 
     fetch();
   }, [debouncedSearch, pagination.pageNumber]);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 400);
-
-    return () => clearTimeout(timeout);
-  }, [search]);
 
   useEffect(() => {
     setPagination((prev) => ({
