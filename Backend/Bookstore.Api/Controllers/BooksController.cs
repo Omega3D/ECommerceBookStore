@@ -4,6 +4,7 @@ using Bookstore.Api.ViewModels.Request;
 using Bookstore.Application.Dtos;
 using Bookstore.Application.Dtos.Pagination;
 using Bookstore.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookstore.Api.Controllers;
@@ -52,6 +53,7 @@ public class BooksController(IBooksService booksService, BookValidatorHelper boo
         return Ok(result);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<int>> CreateBook(BookRequestViewModel bookViewModel)
     {
@@ -74,6 +76,7 @@ public class BooksController(IBooksService booksService, BookValidatorHelper boo
         return await booksService.CreateBook(book);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateBook(int id, BookUpdateViewModel bookViewModel)
     {
@@ -103,6 +106,7 @@ public class BooksController(IBooksService booksService, BookValidatorHelper boo
         return NoContent();
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteBook(int id)
     {
