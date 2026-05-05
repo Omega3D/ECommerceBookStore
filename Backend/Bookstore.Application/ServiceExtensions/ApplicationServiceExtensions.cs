@@ -11,6 +11,7 @@ public static class ApplicationServiceExtensions
     {
         services.AddScoped<IBooksService, BooksService>();
         services.AddScoped<BookValidatorHelper>();
+        services.AddScoped<JwtService>();
 
         return services;
     }
