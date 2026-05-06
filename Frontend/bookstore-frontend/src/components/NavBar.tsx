@@ -28,7 +28,9 @@ export const NavBar = ({ search, setSearch }) => {
       </div>
 
       <div className="shrink-0 w-30">
-        <button>Login</button>
+        <Link to="/login" className="hover:text-gray-300">
+          Login
+        </Link>
       </div>
     </nav>
   );

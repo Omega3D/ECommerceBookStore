@@ -14,7 +14,11 @@ import { defaultBookFilterQuery } from "../models/BookFilterQuery";
 import { useDebounce } from "../hooks/useDebounce";
 import { useBooks } from "../hooks/useBooks";
 
-export const BookPage = ({ search }) => {
+type Props = {
+  search: string;
+};
+
+const BookPage = ({ search }: Props) => {
   const debouncedSearch = useDebounce(search, 400);
 
   const [pagination, setPagination] = useState({
@@ -104,3 +108,4 @@ export const BookPage = ({ search }) => {
     </div>
   );
 };
+export default BookPage
