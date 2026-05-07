@@ -3,6 +3,7 @@ import {login} from "../api/AuthApi.ts";
 import React, {useState} from "react";
 import LoginDto from "../DTOs/BookDto/Auth/LoginDto.ts";
 import toast from "react-hot-toast";
+import { useAuth } from "../contexts/AuthContext.tsx";
 
 const LoginPage = () => {
   const [password, setPassword] = useState("");
@@ -10,6 +11,7 @@ const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(true);
 
   const navigate = useNavigate();
+  const { login: loginUser } = useAuth();
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault();
@@ -20,7 +22,8 @@ const LoginPage = () => {
       rememberMe,
     };
 
-    await login(loginData);
+    const data = await login(loginData);
+    loginUser(data.token, data.roles);
 
     toast.success("Login successful");
     navigate("/books");

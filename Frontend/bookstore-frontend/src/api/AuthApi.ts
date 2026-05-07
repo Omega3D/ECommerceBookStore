@@ -37,10 +37,5 @@ export const login = async (loginDto: LoginDto) => {
     throw new Error(error.message);
   }
 
-  const data = await response.json();
-
-  localStorage.setItem("token", data.token);
-  localStorage.setItem("roles", JSON.stringify(data.roles));
-
-  return data;
+  return await response.json();
 }
