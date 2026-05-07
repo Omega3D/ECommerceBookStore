@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const NavBar = ({ search, setSearch }: Props) => {
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated } = useAuth();
 
   return (
     <nav className="bg-gray-900 text-white px-6 py-6 flex justify-between items-center">
