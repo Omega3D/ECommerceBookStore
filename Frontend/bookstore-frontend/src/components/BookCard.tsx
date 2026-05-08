@@ -30,16 +30,14 @@ export const BookCard = ({ book, onDelete }: Props) => {
       </button>
 
       {/* Зображення */}
-      <Link
-        to={`/edit/${book.id}`}
-        className="block overflow-hidden rounded-lg"
-      >
-        <img
-          className="w-full h-100 object-contain hover:scale-105 transition-transform duration-300"
-          src={book.imageUrl || "https://via.placeholder.com/200x300"}
-          alt={book.title}
-        />
-      </Link>
+      <div className="block overflow-hidden rounded-lg">
+          <img
+              className="w-full h-100 object-contain hover:scale-105 transition-transform duration-300"
+              src={book.imageUrl || "https://via.placeholder.com/200x300"}
+              alt={book.title}
+          />
+      </div>
+
 
       <div className="text-xs text-gray-400 mt-3">#{book.id}</div>
 
