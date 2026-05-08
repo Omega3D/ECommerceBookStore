@@ -6,15 +6,20 @@ import {
 
 type AuthContextType = {
     isAuthenticated: boolean;
-    roles: string | null;
+    roles: string[];
 
-    login: (token: string, roles: string[]) => void;
+    login: (
+        token: string,
+        roles: string[]
+    ) => void;
+
     logout: () => void;
 };
 
-const AuthContext = createContext<AuthContextType | null>(
-    null
-);
+const AuthContext =
+    createContext<AuthContextType | null>(
+        null
+    );
 
 export const AuthProvider = ({
                                  children,
@@ -22,26 +27,43 @@ export const AuthProvider = ({
     children: React.ReactNode;
 }) => {
     const [isAuthenticated, setIsAuthenticated] =
-        useState(!!localStorage.getItem("token"));
+        useState(
+            !!localStorage.getItem("token")
+        );
 
-    const [roles, setRoles] = useState<string | null>(
-        localStorage.getItem("roles")
+    const [roles, setRoles] = useState<
+        string[]
+    >(
+        JSON.parse(
+            localStorage.getItem("roles") ||
+            "[]"
+        )
     );
 
-    const login = (token: string, roles: string[]) => {
+    const login = (
+        token: string,
+        roles: string[]
+    ) => {
         localStorage.setItem("token", token);
-        localStorage.setItem("roles", roles[0]);
+
+        localStorage.setItem(
+            "roles",
+            JSON.stringify(roles)
+        );
 
         setIsAuthenticated(true);
-        setRoles(roles[0]);
+
+        setRoles(roles);
     };
 
     const logout = () => {
         localStorage.removeItem("token");
+
         localStorage.removeItem("roles");
 
         setIsAuthenticated(false);
-        setRoles(null);
+
+        setRoles([]);
     };
 
     return (
@@ -59,7 +81,8 @@ export const AuthProvider = ({
 };
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);
+    const context =
+        useContext(AuthContext);
 
     if (!context) {
         throw new Error(

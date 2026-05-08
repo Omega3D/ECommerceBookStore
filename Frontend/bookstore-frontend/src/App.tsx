@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage";
 import { Toaster } from "react-hot-toast";
 import { NavBar } from "./components/NavBar";
 import { useState } from "react";
+import { ProtectedRoute} from "./components/ProtectedRoute.tsx";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -28,8 +29,15 @@ function App() {
       <Routes>
         <Route path="/" element={<BookPage search={search} />} />
         <Route path="/books" element={<BookPage search={search} />} />
-        <Route path="/create" element={<BookFormPage />} />
-        <Route path="/edit/:id" element={<BookFormPage />} />
+        <Route path="/create" element={
+            <ProtectedRoute roles={["Admin"]}>
+                <BookFormPage />
+            </ProtectedRoute>
+        } />
+        <Route path="/edit/:id" element={
+            <ProtectedRoute roles={["Admin"]}>
+                <BookFormPage />
+            </ProtectedRoute>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>

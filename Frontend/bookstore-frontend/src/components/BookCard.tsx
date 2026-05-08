@@ -1,5 +1,6 @@
 import type BookModel from "../models/BookModel";
 import { Link } from "react-router-dom";
+import {useAuth} from "../contexts/AuthContext.tsx";
 
 type Props = {
   book: BookModel;
@@ -7,6 +8,8 @@ type Props = {
 };
 
 export const BookCard = ({ book, onDelete }: Props) => {
+    const { isAuthenticated, roles } = useAuth();
+
   return (
     <div className="relative bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow duration-200 w-60">
       {/* Кнопка "В бажання" (сердечко) */}
@@ -72,20 +75,24 @@ export const BookCard = ({ book, onDelete }: Props) => {
         Купити
       </button>
 
-      <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
-        <Link
-          to={`/edit/${book.id}`}
-          className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium py-1.5 px-2 rounded transition text-center"
-        >
-          Редагувати
-        </Link>
-        <button
-          onClick={() => onDelete(book.id)}
-          className="flex-1 bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-1.5 px-2 rounded transition"
-        >
-          Видалити
-        </button>
-      </div>
+        {
+            isAuthenticated && roles.includes("Admin") && (
+                <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
+                    <Link
+                        to={`/edit/${book.id}`}
+                        className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium py-1.5 px-2 rounded transition text-center"
+                    >
+                        Редагувати
+                    </Link>
+                    <button
+                        onClick={() => onDelete(book.id)}
+                        className="flex-1 bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-1.5 px-2 rounded transition"
+                    >
+                        Видалити
+                    </button>
+                </div>
+            )
+        }
     </div>
   );
 };

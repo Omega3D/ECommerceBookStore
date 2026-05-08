@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const NavBar = ({ search, setSearch }: Props) => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, roles } = useAuth();
 
   return (
     <nav className="bg-gray-900 text-white px-6 py-6 flex justify-between items-center">
@@ -21,9 +21,16 @@ export const NavBar = ({ search, setSearch }: Props) => {
           Books
         </Link>
 
-        <Link to="/create" className="hover:text-gray-300">
-          Create
-        </Link>
+          {
+              roles.includes("Admin") && (
+                  <Link
+                      to="/create"
+                      className="hover:text-gray-300"
+                  >
+                      Create
+                  </Link>
+              )
+          }
       </div>
 
       <div className="flex-1 flex justify-center max-w-md mx-auto">
