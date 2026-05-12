@@ -6,6 +6,7 @@ import type BookModel from "../models/BookModel";
 import { BookCard } from "../components/BookCard";
 import { Pagination } from "../components/Pagination";
 import { Filters } from "../components/Filters";
+import  { TotalCount } from "../components/TotalCount.tsx";
 
 import { deleteBook } from "../api/BooksApi";
 
@@ -86,8 +87,16 @@ const BookPage = ({ search }: Props) => {
       ) : (
         <div className="flex gap-6">
           <div className="w-[20%] min-w-62.5">
-            <Filters />
+            <div>
+              <Filters />
+            </div>
+
+            <div className="mt-4">
+              <TotalCount totalCount={pagination.totalCount}/>
+            </div>
+
           </div>
+
 
           <div className="flex-1 min-w-0">
             <div className="grid grid-cols-5 gap-4">
