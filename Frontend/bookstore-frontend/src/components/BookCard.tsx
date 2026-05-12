@@ -1,6 +1,9 @@
 import type BookModel from "../models/BookModel";
 import { Link } from "react-router-dom";
 import {useAuth} from "../contexts/AuthContext.tsx";
+import {useCart} from "../contexts/CartContext.tsx";
+import toast from "react-hot-toast";
+import {CartItem} from "../models/CartItem.ts";
 
 type Props = {
   book: BookModel;
@@ -9,6 +12,21 @@ type Props = {
 
 export const BookCard = ({ book, onDelete }: Props) => {
     const { isAuthenticated, roles } = useAuth();
+    const { addToCart } = useCart();
+
+    const handleAddToCart = () => {
+        const newBook: CartItem = {
+            id: book.id,
+            title: book.title,
+            price: book.price,
+            isbn: book.isbn,
+            imageUrl: book.imageUrl,
+            quantity: 1
+        }
+        addToCart(newBook);
+
+        toast.success(`${book.title} added to cart!`);
+    };
 
   return (
     <div className="relative bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow duration-200 w-60">
@@ -56,7 +74,8 @@ export const BookCard = ({ book, onDelete }: Props) => {
         <span className="text-xs text-green-600">Є в наявності</span>
       </div>
 
-      <button className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition flex items-center justify-center gap-2">
+      <button className="mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition flex items-center justify-center gap-2"
+      onClick={handleAddToCart}>
         <svg
           className="w-4 h-4"
           fill="none"
